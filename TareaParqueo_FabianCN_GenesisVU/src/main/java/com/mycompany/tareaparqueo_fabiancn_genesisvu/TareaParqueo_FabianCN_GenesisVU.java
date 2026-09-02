@@ -11,7 +11,7 @@ package com.mycompany.tareaparqueo_fabiancn_genesisvu;
 public class TareaParqueo_FabianCN_GenesisVU {
 
     public static void main(String[] args) {
-        System.out.println("te amo");
+        System.out.println("te mo");
 
     }
 }
