@@ -80,7 +80,7 @@ public class Parqueo {
                     System.out.println(vehiculos[i].getMovimientos()[k].toString());
                 }
                 if (vehiculos[i].getMovimientos()[vehiculos[i].getCantidadMovimientos()-1].getTipo().equalsIgnoreCase("ENTRADA")){
-                    System.out.println("-> Vehiculo aún esta en el parqueo <-");
+                    System.out.println("-> Vehiculo aun esta en el parqueo <-");
                 }
                 encontrado = true;
             }
@@ -231,8 +231,7 @@ public class Parqueo {
                 Movimiento nuevoMovimiento = new Movimiento("SALIDA", LocalDateTime.now(), horasCalculadas, 1000, monto);
                 parqueoLivianos[i].agregarMovimiento(nuevoMovimiento);
                 parqueoLivianos[i].setEnParqueo(false);
-                System.out.println("");
-                System.out.println("Vehiculo: " + parqueoLivianos[i].getPlaca());
+                System.out.println("\nVehiculo: " + parqueoLivianos[i].getPlaca());
                 System.out.println("Entrada: " + parqueoLivianos[i].getMovimientos()[parqueoLivianos[i].getCantidadMovimientos() - 2].getFechaHora());
                 System.out.println("Salida: " + nuevoMovimiento.getFechaHora());
                 System.out.println("Horas cobradas: " + horasCalculadas);
@@ -259,10 +258,10 @@ public class Parqueo {
                 
                 
                 if (parqueoMotocicletas[i].getTipo().equalsIgnoreCase("BICICLETA")) {
-                    System.out.println("Descripcion: " + parqueoMotocicletas[i].getDescripcion());
+                    System.out.println("\nDescripcion: " + parqueoMotocicletas[i].getDescripcion());
                 }
                 else{
-                    System.out.println("Placa: " + parqueoMotocicletas[i].getPlaca());
+                    System.out.println("\nPlaca: " + parqueoMotocicletas[i].getPlaca());
                 }
                 System.out.println("Entrada: "+ parqueoMotocicletas[i].getMovimientos()[parqueoMotocicletas[i].getCantidadMovimientos() - 2].getFechaHora());
                 System.out.println("Salida: " + nuevoMovimiento.getFechaHora());
@@ -333,7 +332,9 @@ public class Parqueo {
     //S: N/A
     public void cierreDia(){
         double totalRecaudado = 0;
-        System.out.println("------- CIERRE DEL DIA -------");
+        System.out.println("\n------- CIERRE DEL DIA -------");
+        System.out.println("Ultimos vehiculos en salir: ");
+        System.out.println("");
 
         for (int i = 0; i < parqueoLivianos.length; i++){
             if (parqueoLivianos[i] != null){
@@ -346,7 +347,9 @@ public class Parqueo {
                 salidaPorPosicion("M" + (i + 1));
             }
         }
-
+        
+        
+        System.out.println("\n------- HISTORIAL DEL DIA -------");
         for (int i = 0; i < cantidadVehiculos; i++){
             Movimiento ultimoMovimiento = vehiculos[i].getMovimientos()[vehiculos[i].getCantidadMovimientos() - 1];
 
