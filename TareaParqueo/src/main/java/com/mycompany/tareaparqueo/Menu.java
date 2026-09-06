@@ -83,24 +83,47 @@ public class Menu {
             case "1":
                 System.out.print("Digite la placa: ");
                 String placaLiviano = teclado.nextLine();
+                
+                if (placaLiviano.trim().isEmpty()){
+                    System.out.println("La placa no puede estar vacia.");
+                    return;
+                }
                 vehiculo = new Vehiculo("LIVIANO", placaLiviano,1);
                 break;
 
             case "2":
                 System.out.print("Digite la placa: ");
                 String placaMoto = teclado.nextLine();
+                
+                if (placaMoto.trim().isEmpty()){
+                    System.out.println("La placa no puede estar vacia.");
+                    return;
+                }
+                
                 vehiculo = new Vehiculo("MOTOCICLETA",placaMoto,1);
                 break;
 
             case "3":
                 System.out.print("Digite la descripcion de la bicicleta: ");
                 String descripcion = teclado.nextLine();
+                
+                if (descripcion.trim().isEmpty()){
+                    System.out.println("La descripcion no puede estar vacia.");
+                    return;
+                }
+                
                 vehiculo = new Vehiculo("BICICLETA",1,descripcion);
                 break;
 
             case "4":
                 System.out.print("Digite la placa: ");
                 String placaGrande = teclado.nextLine();
+                
+                if (placaGrande.trim().isEmpty()){
+                    System.out.println("La placa no puede estar vacia.");
+                    return;
+                }
+                
                 System.out.print("Digite la cantidad de espacios que necesita: ");
                 try{
                     int cantidadEspacios = Integer.parseInt(teclado.nextLine());

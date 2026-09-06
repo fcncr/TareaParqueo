@@ -21,6 +21,12 @@ public class Parqueo {
     //E: Vehiculo
     //S: boleano (True si se añadió con éxito)
     public boolean Ingresarvehiculo(Vehiculo vehiculo){
+        
+        if (cantidadVehiculos >= vehiculos.length){
+            System.out.println("No hay espacio disponible en el historial.");
+            return false;
+        }
+        
         if (vehiculo.getTipo().equalsIgnoreCase("BICICLETA")){
             for (int i=0; i<10; i++){
                 if (this.parqueoMotocicletas[i] == null){
@@ -298,15 +304,16 @@ public class Parqueo {
     //E: Horas de entrada y salida
     //S: Double horasCobradas
     private double calcularHoras(LocalDateTime entrada, LocalDateTime salida){
-        long minutos = Duration.between(entrada, salida).toMinutes();
-        long horasCompletas = minutos/60;
-        long minutosRestantes = minutos% 60;
+        
+        long segundos = Duration.between(entrada, salida).getSeconds();
+        long horasCompletas = segundos/3600;
+        long segundosRestantes = segundos%3600;
         double horasCobradas = horasCompletas;
         
-        if(minutosRestantes > 0 && minutosRestantes <= 30){
+        if(segundosRestantes > 0 && segundosRestantes <= 1800){
             horasCobradas += 0.5;
         }
-        else if (minutosRestantes > 30){
+        else if (segundosRestantes > 1800){
             horasCobradas += 1;
         }
         
