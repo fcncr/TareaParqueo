@@ -36,7 +36,7 @@ public class Parqueo {
             }
             return false;
         }else{
-            if (!buscarPlaca(vehiculo.getPlaca(),vehiculo.getTipo())){
+            if (!buscarPlaca(vehiculo.getPlaca())){
                         if (vehiculo.getTipo().equalsIgnoreCase("MOTOCICLETA")){
                             for (int i=0; i<10; i++){
                                 if (this.parqueoMotocicletas[i] == null){
@@ -156,23 +156,23 @@ public class Parqueo {
     
     //E: Strings (placa y tipo)
     //S: booleano (True si se encontró, False si no)
-    public boolean buscarPlaca(String placa, String tipo){
-        if (tipo.equalsIgnoreCase("MOTOCICLETA")){
+    public boolean buscarPlaca(String placa){
             for (int i=0; i<10;i++){
                 if (parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getPlaca() != null && parqueoMotocicletas[i].getPlaca().equalsIgnoreCase(placa)){
                     return true;
                 }
             }
-            return false;
-        }else{
+
+        
             for (int i=0; i<25;i++){
                 if (parqueoLivianos[i] != null && parqueoLivianos[i].getPlaca() != null && parqueoLivianos[i].getPlaca().equalsIgnoreCase(placa)){
                     return true;
                 }
-            }
-            return false;
         }
+        return false;
+            
     }
+    
     
     //E: N/A
     //S: N/A
