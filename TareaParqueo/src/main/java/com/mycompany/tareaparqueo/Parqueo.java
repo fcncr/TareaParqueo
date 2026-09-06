@@ -12,11 +12,13 @@ public class Parqueo {
     //Constructores
     public Parqueo(){
         this.parqueoLivianos = new Vehiculo[25];
-        this.parqueoMotocicletas = new Vehiculo[10];;
+        this.parqueoMotocicletas = new Vehiculo[10];
         this.vehiculos = new Vehiculo[100];
         this.cantidadVehiculos = 0;
     }
     
+    //E: Vehiculo
+    //S: boleano (True si se añadió con éxito)
     public boolean Ingresarvehiculo(Vehiculo vehiculo){
         if (vehiculo.getTipo().equalsIgnoreCase("BICICLETA")){
             for (int i=0; i<10; i++){
@@ -67,6 +69,68 @@ public class Parqueo {
             return false;
         }
     
+    //E: String identificador
+    //S: N/A
+    public void consultarVehiculo(String id){
+        boolean bandera = false;
+        for (int i = 0; i < 25; i ++){
+            if(parqueoLivianos[i] != null && parqueoLivianos[i].getPlaca() != null && id.equalsIgnoreCase(parqueoLivianos[i].getPlaca())){
+                mostrarConsulta(parqueoLivianos[i]);
+                return;
+            }
+        }
+        for (int i = 0; i < 10; i ++){
+            if(parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getPlaca() != null && id.equalsIgnoreCase(parqueoMotocicletas[i].getPlaca())){
+                mostrarConsulta(parqueoMotocicletas[i]);
+                return;
+            }
+        }
+        for (int i = 0; i < 10; i ++){
+            if(parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getDescripcion() != null && parqueoMotocicletas[i].getDescripcion().toLowerCase().contains(id.toLowerCase())){
+                mostrarConsulta(parqueoMotocicletas[i]);
+                bandera = true;
+            }
+        }
+        
+        if(bandera == true)
+            System.out.println("No se encontro el vehiculo");   
+    }
+            
+    
+    private void mostrarConsulta(Vehiculo vehiculo) {
+        Movimiento entrada = null;
+        //Buscar el ultimo movimiento de ENTRADA
+        for (int i = vehiculo.getCantidadMovimientos() - 1; i >= 0; i--) {
+            if (vehiculo.getMovimientos()[i] != null
+                    && vehiculo.getMovimientos()[i].getTipo().equalsIgnoreCase("ENTRADA")) {
+
+                entrada = vehiculo.getMovimientos()[i];
+                break;
+            }
+        }
+
+        if (entrada == null) {
+            return;
+        }
+
+        double horas = calcularHoras(entrada.getFechaHora(),LocalDateTime.now());
+        double monto = calcularMonto(vehiculo,horas);
+        
+        System.out.println("\n----- VEHICULO -----");
+        if (vehiculo.getTipo().equalsIgnoreCase("BICICLETA")) {
+            System.out.println( "Descripcion: " + vehiculo.getDescripcion());
+        } else {
+            System.out.println("Placa: " + vehiculo.getPlaca());
+        }
+
+        System.out.println("Tipo: " + vehiculo.getTipo());
+        System.out.println("Entrada: " + entrada.getFechaHora());
+        System.out.println("Horas hasta el momento: " + horas);
+        System.out.println("Monto hasta el momento: " + monto);
+    }
+    
+    //E: Strings (placa y tipo)
+    //S: booleano (True si se encontró, False si no)
     public boolean buscarPlaca(String placa, String tipo){
         if (tipo.equalsIgnoreCase("MOTOCICLETA")){
             for (int i=0; i<10;i++){
@@ -84,8 +148,43 @@ public class Parqueo {
             return false;
         }
     }
-   
     
+    public void salidaPorPosicion(String pos){
+        int posActual =0;
+        for(int i = 0; i < 25; i++){
+            posActual = i+1;
+            if(Integer.toString(posActual).equalsIgnoreCase(pos) && parqueoLivianos[i] != null){
+                double horasCalculadas = calcularHoras(parqueoLivianos[i].getMovimientos()[parqueoLivianos[i].getCantidadMovimientos()-1].getFechaHora(), LocalDateTime.now());
+                double monto = calcularMonto(parqueoLivianos[i], horasCalculadas);
+                Movimiento nuevoMovimiento = new Movimiento("SALIDA", LocalDateTime.now(), horasCalculadas, 1000, monto);
+                parqueoLivianos[i].agregarMovimiento(nuevoMovimiento);
+                parqueoLivianos[i].setEnParqueo(false);
+                
+                Vehiculo vehiculo = parqueoLivianos[i];
+                for (int k = 0; k < parqueoLivianos.length; k++) {
+                    if (parqueoLivianos[k] == vehiculo) {
+                        parqueoLivianos[k] = null;
+                    }
+                }
+                return;
+            }
+        }
+        for(int i = 0; i < 10; i++){
+            posActual = i+1;
+            if(("M" + posActual).equalsIgnoreCase(pos) && parqueoMotocicletas[i] != null){
+                double horasCalculadas = calcularHoras(parqueoMotocicletas[i].getMovimientos()[parqueoMotocicletas[i].getCantidadMovimientos()-1].getFechaHora(), LocalDateTime.now());
+                double monto = calcularMonto(parqueoMotocicletas[i], horasCalculadas);
+                Movimiento nuevoMovimiento = new Movimiento("SALIDA", LocalDateTime.now(), horasCalculadas, 800, monto);
+                parqueoMotocicletas[i].agregarMovimiento(nuevoMovimiento);
+                parqueoMotocicletas[i].setEnParqueo(false);
+                parqueoMotocicletas[i] = null;
+                return;
+            }
+        }
+        
+        
+        
+    }
     //E: entero cantidad
     //S: entero (posicion o -1 si no hay espacio disponible)
     private int buscarContiguos(int cantidad){

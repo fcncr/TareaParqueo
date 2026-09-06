@@ -12,10 +12,9 @@ public class Vehiculo {
 
     //Constructor
 
-    public Vehiculo(String tipo, String placa, boolean enParqueo, int cantidadEspacios) {
+    public Vehiculo(String tipo, String placa, int cantidadEspacios) {
         this.tipo = tipo;
         this.placa = placa;
-        this.enParqueo = enParqueo;
         this.cantidadEspacios = cantidadEspacios;
         
      
@@ -25,9 +24,8 @@ public class Vehiculo {
         cantidadMovimientos = 0;
     }
     
-    public Vehiculo(String tipo, boolean enParqueo, int cantidadEspacios, String descripcion) {
+    public Vehiculo(String tipo, int cantidadEspacios, String descripcion) {
         this.tipo = tipo;
-        this.enParqueo = enParqueo;
         this.cantidadEspacios = cantidadEspacios;
         this.descripcion = descripcion;
         
@@ -49,8 +47,8 @@ public class Vehiculo {
                 "Descripcion" + descripcion + "\n";
                 
         return texto;
-    }
-    */
+    }*/
+    
     
     //GETTERS
     
