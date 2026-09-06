@@ -1,6 +1,7 @@
-
+//Imports
 package com.mycompany.tareaparqueo;
 
+//Clase Vehiculo 
 public class Vehiculo {
     private String tipo;
     private String placa;
@@ -10,46 +11,27 @@ public class Vehiculo {
     private Movimiento[] movimientos;
     private int cantidadMovimientos;
 
-    //Constructor
-
+    //CONSTRUCTORES
     public Vehiculo(String tipo, String placa, int cantidadEspacios) {
         this.tipo = tipo;
         this.placa = placa;
         this.cantidadEspacios = cantidadEspacios;
         
-     
         this.enParqueo = false;
-
         movimientos = new Movimiento[100];
         cantidadMovimientos = 0;
     }
-    
+   
     public Vehiculo(String tipo, int cantidadEspacios, String descripcion) {
         this.tipo = tipo;
         this.cantidadEspacios = cantidadEspacios;
         this.descripcion = descripcion;
         
         this.enParqueo = false;
-
         movimientos = new Movimiento[100];
         cantidadMovimientos = 0;
     }
-    
-    //TO STRING
-    /*
-    @Override
-    public String toString() {
-        
-        String texto = "";
-        
-        texto = "Vehiculo tipo: " + tipo + "\n"+
-                "Placa: " + placa +"\n"+
-                "Descripcion" + descripcion + "\n";
-                
-        return texto;
-    }*/
-    
-    
+
     //GETTERS
     
      public String getTipo() {
@@ -110,23 +92,14 @@ public class Vehiculo {
         this.cantidadMovimientos = cantidadMovimientos;
     }
     
-    
-    
+    //Metodo para agregar un movimiento a la lista
+    //E: Objeto movimiento que vamos a agregar
+    //S: NA
     public void agregarMovimiento(Movimiento movimiento){
         
         if (this.cantidadMovimientos < movimientos.length){
             this.movimientos[this.cantidadMovimientos] = movimiento;
             this.cantidadMovimientos++;
         }
- 
     }
-    
-    public void cambiarEstado(){
-        if (this.enParqueo){
-                this.enParqueo = false;
-            }
-            else
-                this.enParqueo = true;
-    }
-   
 }

@@ -1,10 +1,11 @@
+//Imports 
 package com.mycompany.tareaparqueo;
-
 import java.time.LocalDateTime;
 
+//Clase movimiento - Registra movimientos de entrada y salida del parqueo
 public class Movimiento {
     private String tipo;
-    private LocalDateTime fechaHora;
+    private LocalDateTime fechaHora; 
     private double horasCobradas;
     private double tarifaHora;
     private double monto;
@@ -17,26 +18,26 @@ public class Movimiento {
         this.tarifaHora = tarifaHora;
         this.monto = monto;
     }
-
+    
     public Movimiento(String tipo, LocalDateTime fechaHora) {
         this.tipo = tipo;
         this.fechaHora = fechaHora;
     }
     
+    
     //TO STRING
     @Override
     public String toString() {
-        String texto = "";
-
+        String texto = "\n";
+        
         texto += "Tipo de movimiento: " + tipo + "\n";
         texto += "Fecha y hora: " + fechaHora + "\n";
-
+        
         if (tipo.equalsIgnoreCase("SALIDA")) {
             texto += "Horas cobradas: " + horasCobradas + "\n";
             texto += "Tarifa por hora: " + tarifaHora + "\n";
             texto += "Monto: " + monto;
         }
-
         return texto;
     }
         
@@ -82,7 +83,4 @@ public class Movimiento {
     public void setMonto(double monto) {
         this.monto = monto;
     }
-    
-    
-    
 }
