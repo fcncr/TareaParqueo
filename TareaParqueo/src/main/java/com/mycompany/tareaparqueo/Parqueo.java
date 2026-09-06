@@ -157,20 +157,18 @@ public class Parqueo {
     //E: Strings (placa y tipo)
     //S: booleano (True si se encontró, False si no)
     public boolean buscarPlaca(String placa){
-            for (int i=0; i<10;i++){
-                if (parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getPlaca() != null && parqueoMotocicletas[i].getPlaca().equalsIgnoreCase(placa)){
-                    return true;
-                }
+        for (int i=0; i<10;i++){
+            if (parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getPlaca() != null && parqueoMotocicletas[i].getPlaca().equalsIgnoreCase(placa)){
+                return true;
             }
-
-        
-            for (int i=0; i<25;i++){
-                if (parqueoLivianos[i] != null && parqueoLivianos[i].getPlaca() != null && parqueoLivianos[i].getPlaca().equalsIgnoreCase(placa)){
-                    return true;
-                }
         }
-        return false;
-            
+        
+        for (int i=0; i<25;i++){
+            if (parqueoLivianos[i] != null && parqueoLivianos[i].getPlaca() != null && parqueoLivianos[i].getPlaca().equalsIgnoreCase(placa)){
+                return true;
+            }
+        }
+        return false;        
     }
     
     
