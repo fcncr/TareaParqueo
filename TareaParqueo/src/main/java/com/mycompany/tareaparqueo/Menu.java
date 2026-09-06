@@ -14,8 +14,8 @@ public class Menu {
     }
 
     public void ejecutar() {
-        int opcion = 0;
-        while (opcion != 7) {
+        String opcion="";
+        while (!opcion.equals("7")) {
             
             System.out.println("");
             System.out.println("------------------------------");
@@ -31,28 +31,28 @@ public class Menu {
             System.out.println("");
             System.out.print("Digite una opcion: ");
 
-            opcion = Integer.parseInt(teclado.nextLine());
+            opcion = teclado.nextLine();
             switch (opcion) {
 
-                case 1:
+                case "1":
                     ingresarVehiculo();
                     break;
-                case 2:
+                case "2":
                     consultarVehiculo();
                     break;
-                case 3:
+                case "3":
                     salidaVehiculo();
                     break;
-                case 4:
+                case "4":
                     parqueo.consultarParqueo();
                     break;
-                case 5:
+                case "5":
                     consultarHistorial();
                     break;
-                case 6:
+                case "6":
                     parqueo.cierreDia();
                     break;
-                case 7:
+                case "7":
                     System.out.println("");
                     System.out.println("Saliendo del programa");
                     break;
@@ -75,35 +75,47 @@ public class Menu {
         System.out.println("");
         System.out.print("Digite el tipo: ");
 
-        int tipo = Integer.parseInt(teclado.nextLine());
+        String tipo = teclado.nextLine();
         Vehiculo vehiculo = null;
         
         System.out.println("");
         switch (tipo) {
-            case 1:
+            case "1":
                 System.out.print("Digite la placa: ");
                 String placaLiviano = teclado.nextLine();
                 vehiculo = new Vehiculo("LIVIANO", placaLiviano,1);
                 break;
 
-            case 2:
+            case "2":
                 System.out.print("Digite la placa: ");
                 String placaMoto = teclado.nextLine();
                 vehiculo = new Vehiculo("MOTOCICLETA",placaMoto,1);
                 break;
 
-            case 3:
+            case "3":
                 System.out.print("Digite la descripcion de la bicicleta: ");
                 String descripcion = teclado.nextLine();
                 vehiculo = new Vehiculo("BICICLETA",1,descripcion);
                 break;
 
-            case 4:
+            case "4":
                 System.out.print("Digite la placa: ");
                 String placaGrande = teclado.nextLine();
                 System.out.print("Digite la cantidad de espacios que necesita: ");
-                int cantidadEspacios = Integer.parseInt(teclado.nextLine());
-                vehiculo = new Vehiculo("GRANDE",placaGrande,cantidadEspacios);
+                try{
+                    int cantidadEspacios = Integer.parseInt(teclado.nextLine());
+
+                    if (cantidadEspacios < 1 || cantidadEspacios > 10) {
+                        System.out.println("Cantidad de espacios invalida");
+                        return;
+                    }              
+       
+                    vehiculo = new Vehiculo("GRANDE",placaGrande,cantidadEspacios);
+                }
+                catch (NumberFormatException e){
+                    System.out.println("Debe ingresar un numero entero");
+                    return;
+                }
                 break;
 
             default:
@@ -136,18 +148,18 @@ public class Menu {
         System.out.println("");
         System.out.print("Digite una opcion: ");
 
-        int opcionSalida = Integer.parseInt(teclado.nextLine());
+        String opcionSalida = teclado.nextLine();
         
         System.out.println("");
         switch (opcionSalida) {
 
-            case 1:
+            case "1":
                 System.out.print("Digite la placa: ");
                 String placa = teclado.nextLine();
                 parqueo.salidaPorPlaca(placa);
                 break;
 
-            case 2:
+            case "2":
                 System.out.print("Digite la posicion (Ejemplo: 5 o M3): ");
                 String posicion = teclado.nextLine();
                 parqueo.salidaPorPosicion(posicion);
