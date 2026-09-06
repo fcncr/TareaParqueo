@@ -160,6 +160,11 @@ public class Menu {
         System.out.print("Digite la placa o descripcion de la bicicleta: ");
         
         String id = teclado.nextLine();
+        
+        if (id.trim().isEmpty()){
+            System.out.println("Debe ingresar una placa o descripcion.");
+            return;
+        }
         parqueo.consultarVehiculo(id);
     }
 

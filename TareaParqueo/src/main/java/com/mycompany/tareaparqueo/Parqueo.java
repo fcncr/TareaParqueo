@@ -112,13 +112,26 @@ public class Parqueo {
                 return;
             }
         }
-        for (int i = 0; i < 10; i ++){
-            if(parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getDescripcion() != null && parqueoMotocicletas[i].getDescripcion().toLowerCase().contains(id.toLowerCase())){
-                mostrarConsulta(parqueoMotocicletas[i]);
-                bandera = true;
+        
+        String[] palabras = id.trim().toLowerCase().split("\\s+");
+        for (int i = 0; i < 10; i++){
+            if (parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getDescripcion() != null){
+
+                String descripcion = parqueoMotocicletas[i].getDescripcion().toLowerCase();
+                boolean coincide = false;
+
+                for (int k = 0; k < palabras.length; k++){
+                    if (descripcion.contains(palabras[k])){
+                        coincide = true;
+                    }
+                }
+
+                if (coincide){
+                    mostrarConsulta(parqueoMotocicletas[i]);
+                    bandera = true;
+                }
             }
         }
-        
         if(bandera == false)
             System.out.println("No se encontro el vehiculo");   
     }
