@@ -17,6 +17,75 @@ public class Parqueo {
         this.cantidadVehiculos = 0;
     }
     
+    public boolean Ingresarvehiculo(Vehiculo vehiculo){
+        if (vehiculo.getTipo().equalsIgnoreCase("BICICLETA")){
+            for (int i=0; i<10; i++){
+                if (this.parqueoMotocicletas[i] == null){
+                    this.parqueoMotocicletas[i] = vehiculo;
+                    vehiculo.setEnParqueo(true);
+                    Movimiento movimiento = new Movimiento("ENTRADA",LocalDateTime.now());
+                    vehiculo.agregarMovimiento(movimiento);
+           
+                    vehiculos[cantidadVehiculos] = vehiculo;
+                    cantidadVehiculos++;
+                    return true;
+                }
+            }
+            return false;
+        }else{
+            if (!buscarPlaca(vehiculo.getPlaca(),vehiculo.getTipo())){
+                        if (vehiculo.getTipo().equalsIgnoreCase("MOTOCICLETA")){
+                            for (int i=0; i<10; i++){
+                                if (this.parqueoMotocicletas[i] == null){
+                                   
+                                    vehiculos[cantidadVehiculos] = vehiculo;
+                                    cantidadVehiculos++;
+
+                                    this.parqueoMotocicletas[i] = vehiculo;
+                                    vehiculo.setEnParqueo(true);
+                                    Movimiento movimiento = new Movimiento("ENTRADA",LocalDateTime.now());
+                                    vehiculo.agregarMovimiento(movimiento);
+                                    return true;
+                                }
+                            }
+                            return false;
+                        }else{
+                            int posicion = buscarContiguos(vehiculo.getCantidadEspacios());
+                            if (posicion==-1){return false;}
+                                
+                            for (int i = posicion; i < posicion + vehiculo.getCantidadEspacios();i++) {
+                                   this.parqueoLivianos[i] = vehiculo;
+                            }
+                           
+                            vehiculo.setEnParqueo(true);
+                            Movimiento movimiento = new Movimiento("ENTRADA", LocalDateTime.now());
+                            vehiculo.agregarMovimiento(movimiento);
+                            return true;
+                        }
+                }
+            }
+            return false;
+        }
+    
+    public boolean buscarPlaca(String placa, String tipo){
+        if (tipo.equalsIgnoreCase("MOTOCICLETA")){
+            for (int i=0; i<10;i++){
+                if (parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getPlaca() != null && parqueoMotocicletas[i].getPlaca().equalsIgnoreCase(placa)){
+                    return true;
+                }
+            }
+            return false;
+        }else{
+            for (int i=0; i<25;i++){
+                if (parqueoLivianos[i] != null && parqueoLivianos[i].getPlaca() != null && parqueoLivianos[i].getPlaca().equalsIgnoreCase(placa)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+   
+    
     //E: entero cantidad
     //S: entero (posicion o -1 si no hay espacio disponible)
     private int buscarContiguos(int cantidad){
