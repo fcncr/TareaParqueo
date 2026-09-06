@@ -139,7 +139,8 @@ public class Parqueo {
         double horas = calcularHoras(entrada.getFechaHora(),LocalDateTime.now());
         double monto = calcularMonto(vehiculo,horas);
         
-        System.out.println("\n----- VEHICULO -----");
+        System.out.println("");
+        System.out.println(">>>>>> VEHICULO <<<<<");
         if (vehiculo.getTipo().equalsIgnoreCase("BICICLETA")) {
             System.out.println( "Descripcion: " + vehiculo.getDescripcion());
         } else {
