@@ -26,7 +26,18 @@ public class Movimiento {
     //TO STRING
     @Override
     public String toString() {
-        return "Movimiento{" + "tipo=" + tipo + ", fechaHora=" + fechaHora + ", horasCobradas=" + horasCobradas + ", tarifaHora=" + tarifaHora + ", monto=" + monto + '}';
+        String texto = "";
+
+        texto += "Tipo de movimiento: " + tipo + "\n";
+        texto += "Fecha y hora: " + fechaHora + "\n";
+
+        if (tipo.equalsIgnoreCase("SALIDA")) {
+            texto += "Horas cobradas: " + horasCobradas + "\n";
+            texto += "Tarifa por hora: " + tarifaHora + "\n";
+            texto += "Monto: " + monto;
+        }
+
+        return texto;
     }
         
     //GETTERS

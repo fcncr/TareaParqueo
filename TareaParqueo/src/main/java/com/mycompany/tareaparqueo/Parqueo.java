@@ -1,6 +1,7 @@
 
 package com.mycompany.tareaparqueo;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.time.Duration;
 
 public class Parqueo {
@@ -62,12 +63,34 @@ public class Parqueo {
                             vehiculo.setEnParqueo(true);
                             Movimiento movimiento = new Movimiento("ENTRADA", LocalDateTime.now());
                             vehiculo.agregarMovimiento(movimiento);
+                            vehiculos[cantidadVehiculos] = vehiculo;
+                            cantidadVehiculos++;
                             return true;
                         }
                 }
             }
             return false;
         }
+    
+    
+    public void consultarHistorial(String placa){
+        boolean encontrado = false;
+        for (int i = 0;i < cantidadVehiculos;i++){
+            if (vehiculos[i].getPlaca() != null && vehiculos[i].getPlaca().equalsIgnoreCase(placa)){
+                for (int k=0;k < vehiculos[i].getCantidadMovimientos();k++){
+                    System.out.println(vehiculos[i].getMovimientos()[k].toString());
+                }
+                if (vehiculos[i].getMovimientos()[vehiculos[i].getCantidadMovimientos()-1].getTipo().equalsIgnoreCase("ENTRADA")){
+                    System.out.println("-- Vehiculo aún esta en el parqueo --");
+                }
+                encontrado = true;
+            }
+        }
+        if (!encontrado){
+            System.out.println("No se encontro historial para esa placa.");
+        }
+    }
+    
     
     //E: String identificador
     //S: N/A
@@ -92,7 +115,7 @@ public class Parqueo {
             }
         }
         
-        if(bandera == true)
+        if(bandera == false)
             System.out.println("No se encontro el vehiculo");   
     }
             
@@ -149,6 +172,47 @@ public class Parqueo {
         }
     }
     
+    public void consultarParqueo(){
+        for (int i = 0; i < 25; i++) {
+            if (parqueoLivianos[i] != null){
+                System.out.println("ESPACIO " + (i+1) + " OCUPADO");
+                mostrarConsulta(parqueoLivianos[i]);
+            }else{
+                System.out.println("ESPACIO " + (i+1) + " DISPONIBLE");
+            }
+        }
+        
+        for (int i = 0; i < 10; i++) {
+            if (parqueoMotocicletas[i] != null){
+                System.out.println("ESPACIO M" + (i+1) + " OCUPADO");
+                mostrarConsulta(parqueoMotocicletas[i]);
+            }else{
+                System.out.println("ESPACIO M" + (i+1) + " DISPONIBLE");
+            }
+        }
+    }
+    
+    public void salidaPorPlaca(String placa) {
+        //Buscar en vehiculos livianos y grandes
+        for (int i = 0; i < 25; i++) {
+
+            if (parqueoLivianos[i] != null && parqueoLivianos[i].getPlaca() != null && parqueoLivianos[i].getPlaca().equalsIgnoreCase(placa)) {
+                salidaPorPosicion(Integer.toString(i + 1));
+                return;
+            }
+        }
+        //Buscar en motocicletas
+        for (int i = 0; i < 10; i++) {
+            if (parqueoMotocicletas[i] != null && parqueoMotocicletas[i].getPlaca() != null && parqueoMotocicletas[i].getPlaca().equalsIgnoreCase(placa)) {
+                salidaPorPosicion("M" + (i + 1));
+                return;
+            }
+        }
+        System.out.println("No se encontro un vehiculo con esa placa.");
+    }
+    
+    
+    
     public void salidaPorPosicion(String pos){
         int posActual =0;
         for(int i = 0; i < 25; i++){
@@ -159,6 +223,14 @@ public class Parqueo {
                 Movimiento nuevoMovimiento = new Movimiento("SALIDA", LocalDateTime.now(), horasCalculadas, 1000, monto);
                 parqueoLivianos[i].agregarMovimiento(nuevoMovimiento);
                 parqueoLivianos[i].setEnParqueo(false);
+                
+                System.out.println("Vehiculo: " + parqueoLivianos[i].getPlaca());
+
+                System.out.println("Entrada: " + parqueoLivianos[i].getMovimientos()[parqueoLivianos[i].getCantidadMovimientos() - 2].getFechaHora());
+                System.out.println("Salida: " + nuevoMovimiento.getFechaHora());
+                System.out.println("Horas cobradas: " + horasCalculadas);
+                System.out.println("Tarifa: 1000");
+                System.out.println("Monto: " + monto);
                 
                 Vehiculo vehiculo = parqueoLivianos[i];
                 for (int k = 0; k < parqueoLivianos.length; k++) {
@@ -177,14 +249,27 @@ public class Parqueo {
                 Movimiento nuevoMovimiento = new Movimiento("SALIDA", LocalDateTime.now(), horasCalculadas, 800, monto);
                 parqueoMotocicletas[i].agregarMovimiento(nuevoMovimiento);
                 parqueoMotocicletas[i].setEnParqueo(false);
+                
+                
+                if (parqueoMotocicletas[i].getTipo().equalsIgnoreCase("BICICLETA")) {
+                    System.out.println("Descripcion: " + parqueoMotocicletas[i].getDescripcion());
+                }
+                else{
+                    System.out.println("Placa: " + parqueoMotocicletas[i].getPlaca());
+                }
+                System.out.println("Entrada: "+ parqueoMotocicletas[i].getMovimientos()[parqueoMotocicletas[i].getCantidadMovimientos() - 2].getFechaHora());
+                System.out.println("Salida: " + nuevoMovimiento.getFechaHora());
+                System.out.println("Horas cobradas: " + horasCalculadas);
+                System.out.println("Tarifa: 800");
+                System.out.println("Monto: " + monto);
+
                 parqueoMotocicletas[i] = null;
                 return;
             }
-        }
-        
-        
-        
+        } 
+        System.out.println("No se encontro un vehiculo en esa posicion.");
     }
+    
     //E: entero cantidad
     //S: entero (posicion o -1 si no hay espacio disponible)
     private int buscarContiguos(int cantidad){
@@ -233,5 +318,40 @@ public class Parqueo {
             resultado = horasCobradas * 1000;
         
         return resultado;
+    }
+    
+    public void cierreDia(){
+        double totalRecaudado = 0;
+        System.out.println("--- CIERRE DEL DIA ---");
+
+        for (int i = 0; i < parqueoLivianos.length; i++){
+            if (parqueoLivianos[i] != null){
+                salidaPorPosicion(Integer.toString(i + 1));
+            }
+        }
+
+        for (int i = 0; i < parqueoMotocicletas.length; i++){
+            if (parqueoMotocicletas[i] != null){
+                salidaPorPosicion("M" + (i + 1));
+            }
+        }
+
+        for (int i = 0; i < cantidadVehiculos; i++){
+            Movimiento ultimoMovimiento = vehiculos[i].getMovimientos()[vehiculos[i].getCantidadMovimientos() - 1];
+
+            if (ultimoMovimiento.getTipo().equalsIgnoreCase("SALIDA") && ultimoMovimiento.getFechaHora().toLocalDate().equals(LocalDate.now())){
+                if (vehiculos[i].getTipo().equalsIgnoreCase("BICICLETA")){
+                    System.out.println("Descripcion: " + vehiculos[i].getDescripcion());
+                }
+                else{
+                    System.out.println("Placa: " + vehiculos[i].getPlaca());}
+
+                    System.out.println("Horas cobradas: " + ultimoMovimiento.getHorasCobradas());
+                    System.out.println("Monto: " + ultimoMovimiento.getMonto());
+                    System.out.println("______________________");
+                    totalRecaudado += ultimoMovimiento.getMonto();
+            }
+        }
+        System.out.println("TOTAL RECAUDADO DEL DIA: " + totalRecaudado);
     }
 }
