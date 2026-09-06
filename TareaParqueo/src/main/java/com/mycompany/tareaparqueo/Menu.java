@@ -114,9 +114,7 @@ public class Menu {
         if (parqueo.Ingresarvehiculo(vehiculo)) {
             System.out.println("Vehiculo ingresado correctamente.");
         } else {
-            System.out.println(
-                    "No se pudo ingresar el vehiculo."
-            );
+            System.out.println("No se pudo ingresar el vehiculo.");
         }
     }
 
